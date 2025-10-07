@@ -3,7 +3,7 @@ let randi = (x,y)=>{return x + Math.floor(Math.random()*(y-x))}
 let del = (x)=>document.body.removeChild(x);
 
 class Button{
-	randWidth = Math.floor(Math.random() * 200) + 50
+	randWidth = Math.floor(Math.random() * 75) + 25
 	body = randi(-5,5)
 	touched = false;
 
@@ -55,9 +55,11 @@ class Game{
 	}
 
 	onCollect(button){ 
-		this.score += parseInt(button.self.innerHTML)
+		this.score = (this.score + parseInt(button.self.innerHTML))%101;
 		document.getElementById("volumen").innerHTML = this.score
 		this.renew()
+
+		this.audioElement.volume = Math.max(0,this.score/100)
 	}
 
 	loop(){
@@ -70,7 +72,7 @@ class Game{
 					this.loop()			
 				}
 
-			}, randi(1,6)*500)
+			}, randi(1,8)*150)
 		}else{
 			return -1
 		}
@@ -92,9 +94,23 @@ class Game{
 		this.looping = false
 		del(this.currentButton.self)
 	}
+
+	constructor(audioElement){
+		this.audioElement = audioElement;
+		audioElement.volume = 0;
+	}
 }
 
-let theGame = new Game();
+let theGame = new Game(document.getElementById("test"));
+
+
+let play = (id)=>{
+	document.getElementById(id).play();
+}
+
+let stop = (id)=>{
+	document.getElementById(id).pause();
+}
 
 
 let stopGame = ()=>{
