@@ -1,4 +1,4 @@
-let randi = (x,y)=>{return x + Math.floor(Math.random()*(y-x))}
+let randi = (x,y)=>{return x + Math.floor(Math.random()*(y-x+1))}
 
 let del = (x)=>document.body.removeChild(x);
 
@@ -7,7 +7,7 @@ class Button{
 	r = randi(0,255)
 	g = randi(0,255)
 	b = randi(0,255)
-	body = randi(-3,1)
+	body = randi(-3,3)
 	touched = false;
 
 
@@ -27,7 +27,9 @@ class Button{
 			border-radius: ${Math.floor(this.randWidth/2)}px;
 			text-align:center;
 			line-height: ${this.randWidth}px;
-			font-weight:800
+			font-weight:800;
+
+			z-index:0;
 		`
 
 		self.onclick = (e)=>{
@@ -64,6 +66,11 @@ class Game{
 		this.renew()
 
 		this.audioElement.volume = Math.max(0,this.score/100)
+
+
+		if(Math.random()<0.01){
+			document.body.appendChild(this.pickAd().asHTML());
+		}
 	}
 
 	loop(){
@@ -97,6 +104,22 @@ class Game{
 	stop(){
 		this.looping = false
 		del(this.currentButton.self)
+		this.score = 0;
+		document.getElementById("volumen").innerHTML = this.score
+		this.audioElement.volume = 0;
+	}
+
+	pickAd(){
+		let options = [
+			new Ad("Solotodo", "Cotiza, compara y ahorra", "https://solotodo.cl", "rgb(0, 255, 0)", this),
+			new Ad("Programarás orientado a objetos como mtoro y sin usar pastillas", 
+				"¿Quieres saber como? Haz click", "https://dcc.uchile.cl",
+			"rgb(255,0,0)", this),
+			new Ad("Mi programación dejó de ser buena hace muchos años", "Lee aquí mi historia", "https://dcc.ing.uc.cl","rgb(73,181,215)", this),
+			new Ad("Así dejé de ser migajerx", "Con solo un truco sencillo", "https://www.youtube.com/watch?v=RBicJYn3tGw", "rgb(0,0,255)", this)
+		]
+
+		return options[randi(0,options.length-1)]
 	}
 
 	constructor(audioElement){
@@ -105,20 +128,79 @@ class Game{
 	}
 }
 
+
+class Ad{
+	constructor(name, info, href, bg_color, controlled_by){
+		this.name = name
+		this.info = info
+		this.href = href
+		this.bg_color = bg_color
+
+		this.game = controlled_by
+	}
+
+
+	asHTML(){
+		let self = document.createElement("a");
+		self.style = `
+			width: 100vw;
+			height: 100vh;
+			background-color: ${this.bg_color};
+			color:black;
+			z-index: 666;
+			padding: 0;
+			margin: 0;
+
+			position: absolute;
+			top: 0;
+			left: 0;
+			text-decoration:none;
+		`
+
+		let content = document.createElement("p");
+		let close_button = document.createElement("span");
+
+		close_button.innerHTML = "X"
+
+		close_button.style = `
+			z-index: 999;
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		
+		
+		`
+		self.onclick = ()=>{
+			this.game.stop()
+		}
+
+		close_button.onclick=()=>{
+			del(self);
+			del(close_button)
+		}
+
+		content.innerHTML = `${this.name}: ${this.info}`
+		self.href = this.href;
+
+		self.appendChild(content)
+		
+		setTimeout(()=>{
+			document.body.appendChild(close_button);
+		}, 10000)
+
+		return self
+	}
+}
+
 let theGame = new Game(document.getElementById("test"));
 
 
 let play = (id)=>{
-	document.getElementById(id).play();
+	theGame.start()
+	document.getElementById(id).play()
 }
 
 let stop = (id)=>{
 	document.getElementById(id).pause();
-}
-
-
-let stopGame = ()=>{
 	theGame.stop()
 }
-
-theGame.start()
