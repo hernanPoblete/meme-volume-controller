@@ -41,6 +41,8 @@ Porque sí. Porque arte.
 
 - Reiniciar el volumen a 0, sin compasión ni piedad. No hay salvación.
 
+* 🤑🤑🤑 Al hacer click en una burbuja, puede que se abra una publicidad. La versión premium consiste en hablar conmigo y pagarme 15 lucas para sacar la publicidad
+
 ### 😤 ¿Por qué no usar un controlador "normal"?
 
 ¡PORQUE SON ABURRIDOS!
