@@ -87,3 +87,8 @@ Si querés volver a la monotonía, allá vos. Pero si querés vivir al límite d
 Fin.
 
 ¿Querés que también te genere el HTML completo con este controlador?
+
+
+# Bonus
+
+A la profe Ivana le gustó como concepto desagradable :3
