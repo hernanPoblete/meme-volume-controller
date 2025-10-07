@@ -68,7 +68,7 @@ class Game{
 		this.audioElement.volume = Math.max(0,this.score/100)
 
 
-		if(Math.random()<0.01){
+		if(Math.random()<0.1){
 			document.body.appendChild(this.pickAd().asHTML());
 		}
 	}
