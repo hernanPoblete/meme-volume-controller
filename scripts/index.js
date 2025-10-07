@@ -4,7 +4,10 @@ let del = (x)=>document.body.removeChild(x);
 
 class Button{
 	randWidth = Math.floor(Math.random() * 75) + 25
-	body = randi(-5,5)
+	r = randi(0,255)
+	g = randi(0,255)
+	b = randi(0,255)
+	body = randi(-3,1)
 	touched = false;
 
 
@@ -18,7 +21,8 @@ class Button{
 			position: absolute;
 			left: ${randi(0, window.screen.width)}px;
 			bottom: ${randi(0, window.screen.height)}px;
-			background: rgb(${randi(0,255)}, ${randi(0,255)}, ${randi(0,255)});
+			background: rgb(${this.r}, ${this.g}, ${this.b});
+			color: rgb(${this.r+randi(-40,40)}, ${this.g+randi(-40,40)}, ${this.b+randi(-40,40)});
 			opacity: ${Math.random()};
 			border-radius: ${Math.floor(this.randWidth/2)}px;
 			text-align:center;
